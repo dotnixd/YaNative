@@ -2,7 +2,7 @@ import * as React from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 import { YaKlass } from "../yaklass";
 import * as cheerio from "react-native-cheerio";
-import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
+import { Table, TableWrapper, Row, Rows, Col } from "react-native-table-component";
 
 class Update {
     Date = "";
@@ -32,13 +32,13 @@ export class UpdatesScreen extends React.Component {
         this.updates = [];
         var that = this;
 
-        $("tr[itemprop=itemListElement]").each((index, element) => {
+        $("tr[itemprop=itemListElement]").each((_, element) => {
+            var upd = new Update();
+
             $(element).find("td").each((i, el) => {
                 var e = $(el).text().trim().split("\n");
                 var header = e[0].trim();
                 var content = e[1].trim();
-
-                var upd = new Update();
 
                 if(header.includes("Обучающая программа")) {
                     upd.Programm = content;
@@ -47,9 +47,9 @@ export class UpdatesScreen extends React.Component {
                 } else if(header.includes("Тема")) {
                     upd.Label = content;
                 }
+            });
 
-                that.updates.push(upd);
-            })
+            that.updates.push(upd);
         });
 
         this.setState({ data });
@@ -61,12 +61,12 @@ export class UpdatesScreen extends React.Component {
 
     render() {
         const styles = StyleSheet.create({
-            container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-            header: { height: 50, backgroundColor: '#537791' },
-            text: { textAlign: 'center', fontWeight: '100' },
+            container: { flex: 1, paddingTop: 30, backgroundColor: "#fff" },
+            header: { height: 50, backgroundColor: "#537791" },
+            text: { textAlign: "center", fontWeight: "100" },
             dataWrapper: { marginTop: -1 },
-            row: { height: 40, backgroundColor: '#E7E6E1' }
-          });
+            row: { height: 40, backgroundColor: "#E7E6E1" }
+        });
 
         var items = [];
 
@@ -76,23 +76,20 @@ export class UpdatesScreen extends React.Component {
             )
         });
 
-        var width = [100, 100, 100]
+        var width = [100, 300, 400]
 
         return (
-            <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
-                <ScrollView horizontal={true}>
-                    <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
-                        <Row data={ ["Дата", "Программа", "Тема"] } widthArr={width} style={styles.header} textStyle={styles.text} ></Row>
-                    </Table>
-                    <ScrollView style={styles.dataWrapper}>
-                        <Table>
+            <View style={styles.container}>
+                <ScrollView horizontal={ true }>
+                    <ScrollView style={ styles.dataWrapper }>
+                        <Table borderStyle={{ borderWidth: 1, borderColor: "#C1C0B9" }}>
                             { items.map((rowData, index) => (
                                 <Row
-                                    key={index}
-                                    data={rowData}
-                                    widthArr={width}
-                                    style={[styles.row, index%2 && {backgroundColor: '#F7F6E7'}]}
-                                    textStyle={styles.text}
+                                    key={ index }
+                                    data={ rowData }
+                                    widthArr={ width }
+                                    style={ [ styles.row, index % 2 && { backgroundColor: "#F7F6E7" } ] }
+                                    textStyle={ styles.text }
                                 />
                             )) }
                         </Table>
