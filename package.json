@@ -10,7 +10,7 @@
   "dependencies": {
     "@react-navigation/material-bottom-tabs": "^5.2.15",
     "@react-navigation/native": "^5.7.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "expo": "~38.0.8",
     "expo-status-bar": "^1.0.2",
     "react": "~16.11.0",
